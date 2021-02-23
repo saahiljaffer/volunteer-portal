@@ -6,6 +6,7 @@ import firebase from "firebase";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
+import getFirebaseConfig from "./fbconfig.js";
 
 import {
   Container,
@@ -26,6 +27,10 @@ const config = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
+
+// getFirebaseConfig.then((result) => {
+//   firebase.initializeApp(result);
+// });
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
