@@ -20,12 +20,12 @@ import {
 
 // Configure Firebase.
 const config = {
-  apiKey: process.env.REACT_APP_FIREBASE_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: "AIzaSyA_g3NGl1fswGiAn028Rq8VfRlqLZHA_1c",
+  authDomain: "isijniyaz.firebaseapp.com",
+  projectId: "isijniyaz",
+  storageBucket: "isijniyaz.appspot.com",
+  messagingSenderId: "575752581167",
+  appId: "1:575752581167:web:5cb8b2e65175a906b816da",
 };
 
 // getFirebaseConfig.then((result) => {
