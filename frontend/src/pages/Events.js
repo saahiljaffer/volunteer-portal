@@ -11,6 +11,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { Calendar } from "./Calendar";
+
 import {
   Grid,
   FormControl,
@@ -44,16 +45,14 @@ function DriverSignup() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/users`)
-      .then((response) => response.json())
-      .then(setData);
+    fetch(`/api/users`).then((response) => response.json());
+    // .then(setData);
   }, []);
 
   const { register, handleSubmit, watch, errors } = useForm();
 
   return (
     <Container maxwidth="md">
-      <pre>{JSON.stringify(data)}</pre>
       <FormControl onSubmit={handleSubmit(onSubmit)}>
         <Box m={2}>
           <TextField
@@ -130,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RecipeReviewCard({ content, title, subheader }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(true);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -169,24 +168,6 @@ export function Events() {
       // alignItems="center"
       // alignContent="center"
     >
-      <Box
-        m={2}
-        style={{
-          maxwidth: "800px",
-          width: "80%",
-          margin: "auto",
-          marginTop: "20px",
-          justifycontent: "centre",
-          alignContent: "center",
-        }}
-      >
-        <RecipeReviewCard
-          content={<DriverSignup />}
-          title="Wiladat of 12th Imam"
-          subheader="March 28th, 2021"
-          style={{ justifycontent: "centre", alignContent: "center" }}
-        />
-      </Box>
       <Box
         m={2}
         style={{

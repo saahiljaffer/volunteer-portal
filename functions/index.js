@@ -28,21 +28,6 @@ module.exports = {
   api,
 };
 
-app.get("/api/driver", async (req, res) => {
-  console.log("hello");
-  db.collection("drivers")
-    .doc("675")
-    .get()
-    .then((doc) => {
-      console.log("Document data:", doc.data());
-      res.status(200).send(doc.data());
-    })
-    .catch((error) => {
-      console.log("Error getting document:", error);
-      res.status(500).json({ message: "Error!" });
-    });
-});
-
 app.post("/users", async (req, res) => {
   try {
     const user = await db
@@ -77,6 +62,20 @@ app.post("/users", async (req, res) => {
   }
 });
 
+app.get("/api/drivers/:uid", async (req, res) => {
+  db.collection("drivers")
+    .doc(req.params.uid)
+    .get()
+    .then((doc) => {
+      console.log("Document data:", doc.data());
+      res.status(200).send(doc.data());
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+      res.status(500).json({ message: "Error!" });
+    });
+});
+
 app.post("/api/drivers/add", async (req, res) => {
   try {
     console.log(req.body);
@@ -85,14 +84,12 @@ app.post("/api/drivers/add", async (req, res) => {
       .collection("drivers")
       .doc(req.body.uid)
       .set({
-        // name: req.body.name,
-        number: req.body.number,
-        // centre: req.body.centre,
-        // east: req.body.east,
-        // bayview: req.body.bayview,
-        // complex: req.body.complex,
-        // covidWaiver: req.body.covidWaiver,
-        // contactWaiver: req.body.contactWaiver,
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        whatsappNumber: req.body.whatsappNumber,
+        cellNumber: req.body.cellNumber,
+        postalCode: req.body.postalCode,
       })
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
@@ -103,7 +100,7 @@ app.post("/api/drivers/add", async (req, res) => {
 
     console.log(user);
 
-    res.status(200).json({ message: "Success!" });
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Error! ", error });
   }

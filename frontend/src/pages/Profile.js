@@ -1,23 +1,47 @@
-// import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import firebase from "firebase";
 import {
-  Grid,
-  FormControl,
   Box,
   TextField,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  FormGroup,
-  Checkbox,
+  makeStyles,
   Button,
   Container,
 } from "@material-ui/core";
-// import {ProfileBox, Image, P} from './Styles';
 
-function DriverInitialize() {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    margin: theme.spacing(1),
+    width: "50ch",
+  },
+  checkbox: {
+    margin: theme.spacing(1),
+    textAlign: "left",
+  },
+  label: {
+    margin: theme.spacing(1),
+    textAlign: "left",
+  },
+}));
+
+export function Profile() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    if (firebase.auth().currentUser) {
+      var fetchStr = "/api/drivers/" + firebase.auth().currentUser.uid;
+      fetch(fetchStr, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then(setData);
+    }
+  }, []);
+
   const onSubmit = async (event) => {
     const result = await fetch(`/api/drivers/add/`, {
       method: "POST",
@@ -37,106 +61,90 @@ function DriverInitialize() {
 
   const { register, handleSubmit, watch, errors } = useForm();
 
-  return (
-    <Container maxWidth="md">
-      <FormControl onSubmit={handleSubmit(onSubmit)}>
-        <Box m={2}>
+  const classes = useStyles();
+
+  if (data) {
+    return (
+      <div className={classes.root}>
+        <Container maxWidth="md">
+          <h1>Profile</h1>
           <TextField
             inputRef={register}
-            name="number"
-            label="WhatsApp Number"
-            // className={classes.textField}
-            margin="normal"
+            name="fname"
+            label="First Name"
+            variant="outlined"
+            className={classes.textField}
+            required
+            defaultValue={data.fname}
+          />
+          <TextField
+            inputRef={register}
+            name="lname"
+            label="Last Name"
+            variant="outlined"
+            className={classes.textField}
+            required
+            defaultValue={data.lname}
+          />
+          <TextField
+            inputRef={register}
+            name="email"
+            label="Email Address"
             variant="outlined"
             fullWidth
+            className={classes.textField}
+            required
+            defaultValue={data.email}
           />
-        </Box>
-        <Box m={2}>
-          <FormLabel component="legend">
-            Which centre would you like to deliver for?
-          </FormLabel>
-          <RadioGroup aria-label="centre" name="centre" inputRef={register}>
-            <FormControlLabel value="jcc" control={<Radio />} label="JCC" />
-            <FormControlLabel value="mic" control={<Radio />} label="MIC" />
-            <FormControlLabel value="rcc" control={<Radio />} label="RCC" />
-          </RadioGroup>
-        </Box>
-        <Box m={2}>
-          <FormLabel component="legend">
-            Are you interested in delivering for any of the following zones
-          </FormLabel>
-
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox inputRef={register} name="east" />}
-              label="East"
-            />
-            <FormControlLabel
-              control={<Checkbox inputRef={register} name="bayview" />}
-              label="Bayview"
-            />
-            <FormControlLabel
-              control={<Checkbox name="complex" />}
-              label="Complex"
-            />
-          </FormGroup>
-        </Box>
-
-        <Box m={2}>
-          <FormLabel component="legend">
-            I understand that while safety of the community is of utmost
-            importance, there is still some risks present due to COVID-19. I
-            bear full responsibility for my own actions and understand that the
-            ISIJ of Toronto will not be held liable for any complications
-            arising from the volunteer services I provide.
-          </FormLabel>
-
-          <RadioGroup
-            aria-label="covidWaiver"
-            name="covidWaiver"
+          <TextField
             inputRef={register}
-          >
-            <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-            <FormControlLabel value="No" control={<Radio />} label="No" />
-          </RadioGroup>
-        </Box>
+            name="password"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            variant="outlined"
+            className={classes.textField}
+            fullWidth
+            required
+          />
 
-        <Box m={2}>
-          <FormLabel component="legend">
-            I understand that the ISIJ of Toronto will collect and retain my
-            contact information in case public health officials require it for
-            contact tracing purposes.
-          </FormLabel>
-
-          <RadioGroup
-            aria-label="contactWaiver"
-            name="contactWaiver"
+          <TextField
             inputRef={register}
-          >
-            <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-            <FormControlLabel value="No" control={<Radio />} label="No" />
-          </RadioGroup>
-        </Box>
-        <Box m={2}>
-          <Button variant="contained" onClick={onSubmit}>
-            Submit
-          </Button>
-        </Box>
-      </FormControl>
-    </Container>
-  );
-}
-
-export function Profile() {
-  return (
-    // isAuthenticated && (
-    //   <>
-    //     <img src={user.picture} alt={user.name} />
-    //     <p>Name: {user.name}</p>
-    //     <p>Username: {user.nickname}</p>
-    //     <p>Email: {user.email}</p>
-    //   </>
-    // )
-    <DriverInitialize />
-  );
+            name="whatsappNumber"
+            label="WhatsApp Number"
+            variant="outlined"
+            className={classes.textField}
+            required
+            defaultValue={data.whatsappNumber}
+          />
+          <TextField
+            inputRef={register}
+            name="cellNumber"
+            label="Cell Number (if different from above)"
+            variant="outlined"
+            className={classes.textField}
+            defaultValue={data.cellNumber || null}
+          />
+          <TextField
+            inputRef={register}
+            name="postalCode"
+            label="Postal Code"
+            autoComplete="current-password"
+            variant="outlined"
+            className={classes.textField}
+            fullWidth
+            required
+            defaultValue={data.postalCode}
+          />
+          <Box m={2}>
+            <Button variant="contained" onClick={onSubmit}>
+              Submit
+            </Button>
+          </Box>
+        </Container>
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 }
