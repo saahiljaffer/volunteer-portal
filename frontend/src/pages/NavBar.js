@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const navLinks = [
   { title: `Home`, path: `/` },
+  { title: "Routes", path: "/routes" },
   { title: `Profile`, path: `/profile` },
 ];
 
