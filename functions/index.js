@@ -1,10 +1,17 @@
 const functions = require("firebase-functions");
 const cors = require("cors");
 const express = require("express");
-
 const admin = require("firebase-admin");
-
 require("dotenv").config();
+const app = express();
+app.use(cors({ origin: true }));
+
+const runtimeOpts = {
+  timeoutSeconds: 300,
+  memory: "1GB",
+};
+
+const api = functions.runWith(runtimeOpts).https.onRequest(app);
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -19,22 +26,15 @@ if (!admin.apps.length) {
 }
 var db = admin.firestore();
 
-const app = express();
-app.use(cors({ origin: true }));
-
-const api = functions.https.onRequest(app);
-
 module.exports = {
   api,
 };
 
-app.get("/api/driver", async (req, res) => {
-  console.log("hello");
-  db.collection("drivers")
-    .doc("675")
+app.get("/api/routes/:id", async (req, res) => {
+  db.collection("routes")
+    .doc(req.params.id)
     .get()
     .then((doc) => {
-      console.log("Document data:", doc.data());
       res.status(200).send(doc.data());
     })
     .catch((error) => {
@@ -43,18 +43,31 @@ app.get("/api/driver", async (req, res) => {
     });
 });
 
-app.post("/users", async (req, res) => {
+app.get("/api/drivers/:uid", async (req, res) => {
+  db.collection("drivers")
+    .doc(req.params.uid)
+    .get()
+    .then((doc) => {
+      res.status(200).send(doc.data());
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+      res.status(500).json({ message: "Error!" });
+    });
+});
+
+app.post("/api/drivers/add", async (req, res) => {
   try {
     const user = await db
-      .collection("users")
-      .add({
-        name: req.body.name,
-        description: req.body.description,
-        category: req.body.category,
-        price: req.body.price,
-        inventory: req.body.inventory,
-        colour: req.body.colour,
-        size: req.body.size,
+      .collection("drivers")
+      .doc(req.body.uid)
+      .set({
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        whatsappNumber: req.body.whatsappNumber,
+        cellNumber: req.body.cellNumber,
+        postalCode: req.body.postalCode,
       })
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
@@ -63,47 +76,34 @@ app.post("/users", async (req, res) => {
         console.error("Error adding document: ", error);
       });
 
-    console.log(user);
-
-    const updatedArticleInfo = await db
-      .collection("users")
-      .findOne({ name: req.body.name });
-
-    res.status(200).json(updatedArticleInfo);
-
-    client.close();
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Error! ", error });
   }
 });
 
-app.post("/api/drivers/add", async (req, res) => {
+app.post("/api/routes/add", async (req, res) => {
   try {
     console.log(req.body);
+    console.log("hello");
 
-    const user = await db
-      .collection("drivers")
-      .doc(req.body.uid)
+    const route = await db
+      .collection("routes")
+      .doc(req.body.id)
       .set({
-        // name: req.body.name,
-        number: req.body.number,
-        // centre: req.body.centre,
-        // east: req.body.east,
-        // bayview: req.body.bayview,
-        // complex: req.body.complex,
-        // covidWaiver: req.body.covidWaiver,
-        // contactWaiver: req.body.contactWaiver,
+        index: 0,
+        deliveries: req.body.deliveries,
       })
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
       })
       .catch((error) => {
-        console.error("Error adding document: ", error);
+        console.log("Error adding document: ", error);
       });
 
-    console.log(user);
+    console.log(route);
 
-    res.status(200).json({ message: "Success!" });
+    res.status(200).json(route);
   } catch (error) {
     res.status(500).json({ message: "Error! ", error });
   }

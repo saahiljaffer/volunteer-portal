@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
-import UserContext from "../contexts/UserContext";
 
 import {
   AppBar,
@@ -25,35 +24,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const navLinks = [
-  // { title: `Home`, path: `/` },
   { title: `Home`, path: `/` },
+  { title: "Routes", path: "/routes" },
   { title: `Profile`, path: `/profile` },
 ];
 
 function NavBar({ products }) {
-  const { user, changeUser } = useContext(UserContext);
   const classes = useStyles();
-  const [log, setLog] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
 
+  // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged((user) => {
-        setLog(!log);
-        changeUser(JSON.stringify({ name: "saahil", initialized: true }));
+        setIsSignedIn(!!user);
       });
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
-
-  var saahil = firebase.auth().currentUser;
-
-  // if (saahil) {
-  //   return <p>Logged in</p>;
-  // } else {
-  //   return <p>Logged out</p>;
-  // }
-
-  // return <p>{firebase.auth.currentUser}</p>;
 
   return (
     <AppBar position="static">
@@ -63,16 +51,7 @@ function NavBar({ products }) {
           component="nav"
           aria-labelledby="main navigation"
         >
-          {!saahil && (
-            <></>
-            // <Link to="/login" key="login" className={classes.linkText}>
-            //   <ListItem button>
-            //     <ListItemText primary="Login" />
-            //   </ListItem>
-            // </Link>
-          )}
-
-          {saahil && (
+          {isSignedIn && (
             <>
               {navLinks.map(({ title, path }) => (
                 <Link to={path} key={title} className={classes.linkText}>
@@ -82,7 +61,12 @@ function NavBar({ products }) {
                 </Link>
               ))}
               <Link to="/login" key="login" className={classes.linkText}>
-                <ListItem button onClick={() => firebase.auth().signOut()}>
+                <ListItem
+                  button
+                  onClick={() => {
+                    firebase.auth().signOut();
+                  }}
+                >
                   <ListItemText primary="Logout" />
                 </ListItem>
               </Link>
