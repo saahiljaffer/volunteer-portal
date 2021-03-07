@@ -5,7 +5,13 @@ const admin = require("firebase-admin");
 require("dotenv").config();
 const app = express();
 app.use(cors({ origin: true }));
-const api = functions.https.onRequest(app);
+
+const runtimeOpts = {
+  timeoutSeconds: 300,
+  memory: "1GB",
+};
+
+const api = functions.runWith(runtimeOpts).https.onRequest(app);
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -78,7 +84,7 @@ app.post("/api/drivers/add", async (req, res) => {
 
 app.post("/api/routes/add", async (req, res) => {
   try {
-    console.log(req.body.id);
+    console.log(req.body);
     console.log("hello");
 
     const route = await db

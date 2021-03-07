@@ -18,7 +18,7 @@ export function DriverRoutes() {
       <Box m={1}>
         <Link to="/routes/{}" key="signup" style={{ textDecoration: "none" }}>
           <Button variant="contained" fullWidth>
-            Create New Account
+            Go
           </Button>
         </Link>
       </Box>

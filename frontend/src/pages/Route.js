@@ -33,11 +33,15 @@ export function DriverRoute({ match }) {
     return (
       <Container maxWidth="md">
         <div style={{ textAlign: "left" }}>
-          Address: {data.deliveries[index].number}{" "}
-          {data.deliveries[index].street} {data.deliveries[index].postalCode}
-          <p>Apartment Number: {data.deliveries[index].apartment}</p>
+          <p>ID: {data.deliveries[index].id}</p>
+          <p>Number: {data.deliveries[index].number}</p>
+          <p>Street: {data.deliveries[index].street}</p>
+          <p>Postal Code: {data.deliveries[index].postalCode}</p>
+          <p>City: {data.deliveries[index].city}</p>
+          <p>Apartment Number: {data.deliveries[index].apt}</p>
           <p>Phone Number: {data.deliveries[index].phone}</p>
           <p>Portions: {data.deliveries[index].portions}</p>
+          <p>Notes: {data.deliveries[index].notes}</p>
           <Box m={1}>
             <Link href={link} key="signup" style={{ textDecoration: "none" }}>
               {/* <Button variant="contained">Open Maps</Button> */}
