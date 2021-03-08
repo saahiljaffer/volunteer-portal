@@ -68,51 +68,55 @@ export function DriverRoute({ match }) {
   if (data) {
     return (
       // <div className={classes.root}>
-      <Box m={2} style={{ textAlign: "left" }}>
-        {/* <Box
+      <>
+        <Box m={2} style={{ textAlign: "left" }}>
+          {/* <Box
           
         > */}
-        <p style={{ width: "fit-content" }}>
-          <b>ID:</b> {data.deliveries[index].id}
-        </p>
-        <p>
-          <b>Address: </b>
-          <Link href={link} key="signup">
-            {data.deliveries[index].number} {data.deliveries[index].street},{" "}
-            {data.deliveries[index].city}, {data.deliveries[index].postalCode}
-          </Link>
-        </p>
-        <p style={{ width: "fit-content" }}>
-          <b> Apartment/Unit:</b> {data.deliveries[index].apt}
-        </p>
-        <p style={{ width: "fit-content" }}>
-          <b>Phone Number:</b>{" "}
-          <Link href={"tel:" + data.deliveries[index].phone}>
-            {data.deliveries[index].phone}
-          </Link>
-        </p>
-        <p style={{ width: "fit-content" }}>
-          <b>Portions:</b> {data.deliveries[index].portions}
-        </p>
-        <p style={{ width: "fit-content" }}>
-          <b>Notes:</b> {data.deliveries[index].notes}
-        </p>
-        {/* <ButtonGroup aria-label="outlined primary button group"> */}
+          <p style={{ width: "fit-content" }}>
+            <b>ID:</b> {data.deliveries[index].id}
+          </p>
+          <p>
+            <b>Address: </b>
+            <Link href={link} key="signup">
+              {data.deliveries[index].number} {data.deliveries[index].street},{" "}
+              {data.deliveries[index].city}, {data.deliveries[index].postalCode}
+            </Link>
+          </p>
+          <p style={{ width: "fit-content" }}>
+            <b> Apartment/Unit:</b> {data.deliveries[index].apt}
+          </p>
+          <p style={{ width: "fit-content" }}>
+            <b>Phone Number:</b>{" "}
+            <Link href={"tel:" + data.deliveries[index].phone}>
+              {data.deliveries[index].phone}
+            </Link>
+          </p>
+          <p style={{ width: "fit-content" }}>
+            <b>Portions:</b> {data.deliveries[index].portions}
+          </p>
+          <p style={{ width: "fit-content" }}>
+            <b>Notes:</b> {data.deliveries[index].notes}
+          </p>
+          {/* <ButtonGroup aria-label="outlined primary button group"> */}
+        </Box>
+        <Container>
+          <Pagination
+            // showFirstButton
+            // hidePrevButton
+            // hideNextButton
+            // showLastButton
+            page={index + 1}
+            onChange={handleChange}
+            // count={3}
+            count={data.deliveries.length}
+          />
+        </Container>
+      </>
+      // {/* </ButtonGroup> */}
+      // {/* </div> */}
+      // {/* </Box> */}
 
-        <Pagination
-          // showFirstButton
-          // hidePrevButton
-          // hideNextButton
-          // showLastButton
-          page={index + 1}
-          onChange={handleChange}
-          // count={3}
-          count={data.deliveries.length}
-        />
-        {/* </ButtonGroup> */}
-        {/* </div> */}
-        {/* </Box> */}
-      </Box>
       //{" "}
       // </div>
     );
