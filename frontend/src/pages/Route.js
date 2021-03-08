@@ -34,8 +34,11 @@ export function DriverRoute({ match }) {
       <Container maxWidth="md">
         <div style={{ textAlign: "left" }}>
           <p>ID: {data.deliveries[index].id}</p>
-          <p>Number: {data.deliveries[index].number}</p>
-          <p>Street: {data.deliveries[index].street}</p>
+          <p>
+            Address: {data.deliveries[index].number}{" "}
+            {data.deliveries[index].street}, {data.deliveries[index].city},{" "}
+            {data.deliveries[index].postalCode}
+          </p>
           <p>Postal Code: {data.deliveries[index].postalCode}</p>
           <p>City: {data.deliveries[index].city}</p>
           <p>Apartment Number: {data.deliveries[index].apt}</p>
