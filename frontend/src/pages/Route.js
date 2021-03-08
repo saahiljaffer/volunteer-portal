@@ -1,8 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Link, Button, Container, Box } from "@material-ui/core";
+import {
+  Link,
+  Button,
+  Container,
+  Box,
+  makeStyles,
+  ButtonGroup,
+} from "@material-ui/core";
+import { Pagination } from "@material-ui/lab";
 import { Redirect } from "react-router-dom";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    margin: theme.spacing(1),
+    width: "50ch",
+  },
+  checkbox: {
+    margin: theme.spacing(1),
+    textAlign: "left",
+  },
+  label: {
+    margin: theme.spacing(1),
+    textAlign: "left",
+  },
+  button: {
+    marginBottom: theme.spacing(1),
+  },
+}));
+
 export function DriverRoute({ match }) {
+  const classes = useStyles();
+
   const { id } = match.params;
   const [data, setData] = useState(null);
   const [index, setIndex] = useState(0);
@@ -29,48 +61,60 @@ export function DriverRoute({ match }) {
     }
   }, [index, data]);
 
+  const handleChange = (event, value) => {
+    setIndex(value - 1);
+  };
+
   if (data) {
     return (
-      <Container maxWidth="md">
-        <div style={{ textAlign: "left" }}>
-          <p>ID: {data.deliveries[index].id}</p>
-          <p>
-            Address: {data.deliveries[index].number}{" "}
-            {data.deliveries[index].street}, {data.deliveries[index].city},{" "}
-            {data.deliveries[index].postalCode}
-          </p>
-          <p>Postal Code: {data.deliveries[index].postalCode}</p>
-          <p>City: {data.deliveries[index].city}</p>
-          <p>Apartment Number: {data.deliveries[index].apt}</p>
-          <p>Phone Number: {data.deliveries[index].phone}</p>
-          <p>Portions: {data.deliveries[index].portions}</p>
-          <p>Notes: {data.deliveries[index].notes}</p>
-          <Box m={1}>
-            <Link href={link} key="signup" style={{ textDecoration: "none" }}>
-              {/* <Button variant="contained">Open Maps</Button> */}
-              Open Maps
-            </Link>
-          </Box>
-          <Box m={1}>
-            <Button
-              variant="contained"
-              disabled={index === 0}
-              onClick={() => setIndex(index - 1)}
-            >
-              Previous
-            </Button>
-          </Box>
-          <Box m={1}>
-            <Button
-              variant="contained"
-              disabled={index === data.deliveries.length - 1}
-              onClick={() => setIndex(index + 1)}
-            >
-              Next
-            </Button>
-          </Box>
-        </div>
-      </Container>
+      // <div className={classes.root}>
+      <Box m={2} style={{ textAlign: "left" }}>
+        {/* <Box
+          
+        > */}
+        <p style={{ width: "fit-content" }}>
+          <b>ID:</b> {data.deliveries[index].id}
+        </p>
+        <p>
+          <b>Address: </b>
+          <Link href={link} key="signup">
+            {data.deliveries[index].number} {data.deliveries[index].street},{" "}
+            {data.deliveries[index].city}, {data.deliveries[index].postalCode}
+          </Link>
+        </p>
+        <p style={{ width: "fit-content" }}>
+          <b> Apartment/Unit:</b> {data.deliveries[index].apt}
+        </p>
+        <p style={{ width: "fit-content" }}>
+          <b>Phone Number:</b>{" "}
+          <Link href={"tel:" + data.deliveries[index].phone}>
+            {data.deliveries[index].phone}
+          </Link>
+        </p>
+        <p style={{ width: "fit-content" }}>
+          <b>Portions:</b> {data.deliveries[index].portions}
+        </p>
+        <p style={{ width: "fit-content" }}>
+          <b>Notes:</b> {data.deliveries[index].notes}
+        </p>
+        {/* <ButtonGroup aria-label="outlined primary button group"> */}
+
+        <Pagination
+          showFirstButton
+          // hidePrevButton
+          // hideNextButton
+          showLastButton
+          page={index + 1}
+          onChange={handleChange}
+          // count={3}
+          count={data.deliveries.length}
+        />
+        {/* </ButtonGroup> */}
+        {/* </div> */}
+        {/* </Box> */}
+      </Box>
+      //{" "}
+      // </div>
     );
   }
 
