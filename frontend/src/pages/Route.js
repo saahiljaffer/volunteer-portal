@@ -100,10 +100,10 @@ export function DriverRoute({ match }) {
         {/* <ButtonGroup aria-label="outlined primary button group"> */}
 
         <Pagination
-          showFirstButton
+          // showFirstButton
           // hidePrevButton
           // hideNextButton
-          showLastButton
+          // showLastButton
           page={index + 1}
           onChange={handleChange}
           // count={3}
