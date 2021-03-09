@@ -69,6 +69,20 @@ export function DriverRoute({ match }) {
     return (
       // <div className={classes.root}>
       <>
+        <Container m={2} maxWidth="md" style={{ width: "fit-content" }}>
+          <Pagination
+            m={2}
+            style={{ width: "fit-content", paddingTop: "8px" }}
+            // showFirstButton
+            // hidePrevButton
+            // hideNextButton
+            // showLastButton
+            page={index + 1}
+            onChange={handleChange}
+            // count={3}
+            count={data.deliveries.length}
+          />
+        </Container>
         <Container
           // minHeight="800px"
           maxWidth="sm"
@@ -86,9 +100,12 @@ export function DriverRoute({ match }) {
               {data.deliveries[index].city}, {data.deliveries[index].postalCode}
             </Link>
           </p>
-          <p style={{ width: "fit-content" }}>
-            <b> Apartment/Unit:</b> {data.deliveries[index].apt}
-          </p>
+
+          {data.deliveries[index].apt && (
+            <p style={{ width: "fit-content" }}>
+              <b> Apartment/Unit:</b> {data.deliveries[index].apt}
+            </p>
+          )}
           <p style={{ width: "fit-content" }}>
             <b>Phone Number:</b>{" "}
             <Link href={"tel:" + data.deliveries[index].phone}>
@@ -105,19 +122,6 @@ export function DriverRoute({ match }) {
           )}
           {/* <ButtonGroup aria-label="outlined primary button group"> */}
           {/* </Box> */}
-        </Container>
-        <Container maxWidth="md" style={{ width: "fit-content" }}>
-          <Pagination
-            style={{ width: "fit-content" }}
-            // showFirstButton
-            // hidePrevButton
-            // hideNextButton
-            // showLastButton
-            page={index + 1}
-            onChange={handleChange}
-            // count={3}
-            count={data.deliveries.length}
-          />
         </Container>
       </>
       // {/* </ButtonGroup> */}

@@ -13,6 +13,62 @@ const runtimeOpts = {
 
 const api = functions.runWith(runtimeOpts).https.onRequest(app);
 
+var deliveries = [];
+deliveries.push({
+  city: "Toronto",
+  id: "1",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "2",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+  notes: "thank you thank you thank you",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "3",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "1",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "1",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "1",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
 const config = {
   apiKey: "AIzaSyA_g3NGl1fswGiAn028Rq8VfRlqLZHA_1c",
   authDomain: "isijniyaz.firebaseapp.com",
@@ -80,6 +136,11 @@ app.post("/api/drivers/add", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error! ", error });
   }
+});
+
+db.collection("routes").doc("3").set({
+  index: 0,
+  deliveries: deliveries,
 });
 
 app.post("/api/routes/add", async (req, res) => {
