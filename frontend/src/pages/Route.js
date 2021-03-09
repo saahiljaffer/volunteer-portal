@@ -69,10 +69,13 @@ export function DriverRoute({ match }) {
     return (
       // <div className={classes.root}>
       <>
-        <Box m={2} style={{ textAlign: "left" }}>
-          {/* <Box
-          
-        > */}
+        <Container
+          // minHeight="800px"
+          maxWidth="sm"
+          m={2}
+          style={{ textAlign: "left" }}
+        >
+          {/* <Box minHeight="500px"> */}
           <p style={{ width: "fit-content" }}>
             <b>ID:</b> {data.deliveries[index].id}
           </p>
@@ -99,9 +102,11 @@ export function DriverRoute({ match }) {
             <b>Notes:</b> {data.deliveries[index].notes}
           </p>
           {/* <ButtonGroup aria-label="outlined primary button group"> */}
-        </Box>
-        <Container>
+          {/* </Box> */}
+        </Container>
+        <Container maxWidth="md" style={{ width: "fit-content" }}>
           <Pagination
+            style={{ width: "fit-content" }}
             // showFirstButton
             // hidePrevButton
             // hideNextButton
@@ -116,8 +121,7 @@ export function DriverRoute({ match }) {
       // {/* </ButtonGroup> */}
       // {/* </div> */}
       // {/* </Box> */}
-
-      //{" "}
+      // //{" "}
       // </div>
     );
   }
