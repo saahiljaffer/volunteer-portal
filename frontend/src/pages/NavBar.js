@@ -72,6 +72,20 @@ function NavBar({ products }) {
               </Link>
             </>
           )}
+          {!isSignedIn && (
+            <>
+              <Link to="/login" key="login" className={classes.linkText}>
+                <ListItem button>
+                  <ListItemText primary="Login" />
+                </ListItem>
+              </Link>
+              <Link to="/routes" key="routes" className={classes.linkText}>
+                <ListItem button>
+                  <ListItemText primary="Routes" />
+                </ListItem>
+              </Link>
+            </>
+          )}
         </List>
       </Toolbar>
     </AppBar>

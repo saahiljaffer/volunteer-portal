@@ -13,16 +13,72 @@ const runtimeOpts = {
 
 const api = functions.runWith(runtimeOpts).https.onRequest(app);
 
+var deliveries = [];
+deliveries.push({
+  city: "Toronto",
+  id: "1",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "2",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+  notes: "thank you thank you thank you",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "3",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "1",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "1",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
+deliveries.push({
+  city: "Toronto",
+  id: "1",
+  number: "270",
+  phone: "647-502-6573",
+  portions: "3",
+  postalCode: "M2M 4A6",
+  street: "Goldenwood Road",
+});
 const config = {
-  apiKey: process.env.REACT_APP_FIREBASE_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: "AIzaSyA_g3NGl1fswGiAn028Rq8VfRlqLZHA_1c",
+  authDomain: "isijniyaz.firebaseapp.com",
+  projectId: "isijniyaz",
+  storageBucket: "isijniyaz.appspot.com",
+  messagingSenderId: "575752581167",
+  appId: "1:575752581167:web:5cb8b2e65175a906b816da",
 };
 if (!admin.apps.length) {
-  admin.initializeApp(config);
+  admin.initializeApp();
 }
 var db = admin.firestore();
 
@@ -80,6 +136,11 @@ app.post("/api/drivers/add", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error! ", error });
   }
+});
+
+db.collection("routes").doc("3").set({
+  index: 0,
+  deliveries: deliveries,
 });
 
 app.post("/api/routes/add", async (req, res) => {
