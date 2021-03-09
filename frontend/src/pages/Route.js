@@ -98,9 +98,11 @@ export function DriverRoute({ match }) {
           <p style={{ width: "fit-content" }}>
             <b>Portions:</b> {data.deliveries[index].portions}
           </p>
-          <p style={{ width: "fit-content" }}>
-            <b>Notes:</b> {data.deliveries[index].notes}
-          </p>
+          {data.deliveries[index].notes && (
+            <p style={{ width: "fit-content" }}>
+              <b>Notes:</b> {data.deliveries[index].notes}
+            </p>
+          )}
           {/* <ButtonGroup aria-label="outlined primary button group"> */}
           {/* </Box> */}
         </Container>
