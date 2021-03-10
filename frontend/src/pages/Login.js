@@ -47,11 +47,11 @@ export function Login() {
     return (
       <div>
         <h1>Login</h1>
-        <Container maxWidth="md">
-          <FormControl onSubmit={handleSubmit(onSubmit)}>
+        <Container maxWidth="sm">
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Box m={1}>
               <TextField
-                inputRef={register}
+                inputRef={register({ required: true })}
                 name="email"
                 label="Email Address"
                 // className={classes.textField}
@@ -63,7 +63,7 @@ export function Login() {
 
             <Box m={1}>
               <TextField
-                inputRef={register}
+                inputRef={register({ required: true })}
                 name="password"
                 label="Password"
                 label="Password"
@@ -77,7 +77,11 @@ export function Login() {
             </Box>
 
             <Box m={1}>
-              <Button variant="contained" onClick={onSubmit} fullWidth>
+              <Button
+                variant="contained"
+                onClick={handleSubmit(onSubmit)}
+                fullWidth
+              >
                 Sign In
               </Button>
             </Box>
@@ -95,8 +99,8 @@ export function Login() {
             </Box>
             <Box m={1}>
               <Link
-                to="/resetPassword"
-                key="resetPassword"
+                to="/forgotPassword"
+                key="forgotPassword"
                 style={{ textDecoration: "none" }}
               >
                 <Button variant="contained" fullWidth>
@@ -104,7 +108,7 @@ export function Login() {
                 </Button>
               </Link>
             </Box>
-          </FormControl>
+          </form>
         </Container>
       </div>
     );

@@ -138,6 +138,28 @@ app.post("/api/drivers/add", async (req, res) => {
   }
 });
 
+app.put("/api/drivers/signup", async (req, res) => {
+  console.log(req.body);
+  try {
+    const user = await db
+      .collection("drivers")
+      .doc(req.body.uid)
+      .update({
+        ramadhan: req.body.ramadhan,
+      })
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Error! ", error });
+  }
+});
+
 db.collection("routes").doc("3").set({
   index: 0,
   deliveries: deliveries,

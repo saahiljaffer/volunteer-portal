@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { FormControl, Box, TextField, Button, Link } from "@material-ui/core";
+import {
+  FormControl,
+  Box,
+  TextField,
+  Button,
+  Link,
+  Container,
+} from "@material-ui/core";
 
 export function DriverRoutes() {
   const [route, setRoute] = useState("");
@@ -9,7 +16,7 @@ export function DriverRoutes() {
   };
 
   return (
-    <FormControl>
+    <Container maxWidth="sm">
       <Box m={1}>
         <TextField
           // inputRef={register}
@@ -34,7 +41,7 @@ export function DriverRoutes() {
           </Button>
         </Link>
       </Box>
-    </FormControl>
+    </Container>
   );
 }
 

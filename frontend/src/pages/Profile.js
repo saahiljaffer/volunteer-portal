@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
   textField: {
     margin: theme.spacing(1),
-    width: "50ch",
   },
   checkbox: {
     margin: theme.spacing(1),
@@ -66,7 +65,7 @@ export function Profile() {
   if (data) {
     return (
       <div className={classes.root}>
-        <Container maxWidth="md">
+        <Container maxWidth="sm">
           <h1>Profile</h1>
           <TextField
             inputRef={register}
@@ -76,6 +75,7 @@ export function Profile() {
             className={classes.textField}
             required
             defaultValue={data.fname}
+            fullWidth
           />
           <TextField
             inputRef={register}
@@ -85,6 +85,7 @@ export function Profile() {
             className={classes.textField}
             required
             defaultValue={data.lname}
+            fullWidth
           />
           <TextField
             inputRef={register}
@@ -95,6 +96,7 @@ export function Profile() {
             className={classes.textField}
             required
             defaultValue={data.email}
+            fullWidth
           />
           <TextField
             inputRef={register}
@@ -106,6 +108,7 @@ export function Profile() {
             className={classes.textField}
             fullWidth
             required
+            fullWidth
           />
 
           <TextField
@@ -116,6 +119,7 @@ export function Profile() {
             className={classes.textField}
             required
             defaultValue={data.whatsappNumber}
+            fullWidth
           />
           <TextField
             inputRef={register}
@@ -124,6 +128,7 @@ export function Profile() {
             variant="outlined"
             className={classes.textField}
             defaultValue={data.cellNumber || null}
+            fullWidth
           />
           <TextField
             inputRef={register}
@@ -135,9 +140,10 @@ export function Profile() {
             fullWidth
             required
             defaultValue={data.postalCode}
+            fullWidth
           />
           <Box m={2}>
-            <Button variant="contained" onClick={onSubmit}>
+            <Button fullWidth variant="contained" onClick={onSubmit}>
               Submit
             </Button>
           </Box>

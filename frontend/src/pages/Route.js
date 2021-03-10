@@ -6,6 +6,7 @@ import {
   Box,
   makeStyles,
   ButtonGroup,
+  CircularProgress,
 } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { Redirect } from "react-router-dom";
@@ -132,7 +133,11 @@ export function DriverRoute({ match }) {
     );
   }
 
-  return <></>;
+  return (
+    <Container>
+      <CircularProgress />
+    </Container>
+  );
 }
 
 export default DriverRoute;

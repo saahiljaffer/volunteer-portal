@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import { Button } from "@material-ui/core";
+import { Button, Snackbar, Box } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+import firebase from "firebase";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export function Calendar() {
   const [selectedDays, selectDays] = useState([]);
@@ -33,12 +39,39 @@ export function Calendar() {
     selectDays([]);
   };
 
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null);
+
+  const submit = () => {
+    const body = {
+      ramadhan: selectedDays,
+      uid: firebase.auth().currentUser.uid,
+    };
+    const result = fetch(`/api/drivers/signup/`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    })
+      .then(() => setOpen(true))
+      .catch(setError);
+  };
+
   var beforeLim = new Date();
   beforeLim.setDate(beforeLim.getDate() + 2);
 
   if (beforeLim < new Date(2021, 3, 15)) {
     beforeLim = new Date(2021, 3, 15);
   }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   return (
     <div>
@@ -58,7 +91,26 @@ export function Calendar() {
       />
       <br />
       <Button onClick={selectAll}>Select all</Button>
+      <Button onClick={submit}>Submit</Button>
       <Button onClick={deselectAll}>Deselect all</Button>
+      <Box style={{ marginBottom: "50px" }}>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "center",
+            horizontal: "center",
+          }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity="success">
+            You have successfully signed up!
+          </Alert>
+        </Snackbar>
+      </Box>
+      {/* {submitted && (
+        <Alert severity="success">This is a success message!</Alert>
+      )} */}
     </div>
   );
 }
