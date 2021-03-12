@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from "react";
 import firebase from "firebase";
 import { useForm } from "react-hook-form";
 import { Redirect, Link } from "react-router-dom";
-import * as yup from "yup";
 
 import {
   Container,
