@@ -133,6 +133,7 @@ export function DriverRoute({ match }) {
         <div className="footer">
           <Container m={2} maxWidth="md" style={{ width: "fit-content" }}>
             <Pagination
+              size="large"
               m={2}
               style={{
                 marginTop: "60px",

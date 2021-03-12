@@ -18,61 +18,25 @@ const runtimeOpts = {
 const api = functions.runWith(runtimeOpts).https.onRequest(app);
 
 var deliveries = [];
-deliveries.push({
-  city: "Toronto",
-  id: "1",
-  number: "270",
-  phone: "647-502-6573",
-  portions: "3",
-  postalCode: "M2M 4A6",
-  street: "Goldenwood Road",
-});
-deliveries.push({
-  city: "Toronto",
-  id: "2",
-  number: "270",
-  phone: "647-502-6573",
-  portions: "3",
-  postalCode: "M2M 4A6",
-  street: "Goldenwood Road",
-  notes: "thank you thank you thank you",
-});
-deliveries.push({
-  city: "Toronto",
-  id: "3",
-  number: "270",
-  phone: "647-502-6573",
-  portions: "3",
-  postalCode: "M2M 4A6",
-  street: "Goldenwood Road",
-});
-deliveries.push({
-  city: "Toronto",
-  id: "1",
-  number: "270",
-  phone: "647-502-6573",
-  portions: "3",
-  postalCode: "M2M 4A6",
-  street: "Goldenwood Road",
-});
-deliveries.push({
-  city: "Toronto",
-  id: "1",
-  number: "270",
-  phone: "647-502-6573",
-  portions: "3",
-  postalCode: "M2M 4A6",
-  street: "Goldenwood Road",
-});
-deliveries.push({
-  city: "Toronto",
-  id: "1",
-  number: "270",
-  phone: "647-502-6573",
-  portions: "3",
-  postalCode: "M2M 4A6",
-  street: "Goldenwood Road",
-});
+for (let i = 0; i < 15; i++) {
+  if (i % 2) {
+    apartment = i;
+  } else {
+    apartment = null;
+  }
+  deliveries.push({
+    city: "Richmond Hill",
+    id: i,
+    number: "9205",
+    phone: "647-761-8415",
+    portions: "3",
+    postalCode: "L4C 0V9",
+    street: "Bathurst Street",
+    apt: apartment,
+    notes: "ty",
+  });
+}
+
 const config = {
   apiKey: "AIzaSyA_g3NGl1fswGiAn028Rq8VfRlqLZHA_1c",
   authDomain: "isijniyaz.firebaseapp.com",
@@ -227,7 +191,7 @@ app.put("/api/drivers/signup", async (req, res) => {
   }
 });
 
-db.collection("events").doc("2021-03-11").set({ index: 0 });
+db.collection("events").doc("2021-03-12").set({ index: 0 });
 
 db.collection("events").doc("2021-03-12").collection("routes").doc("3").set({
   index: 0,
