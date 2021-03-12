@@ -40,10 +40,17 @@ export function DriverRoute({ match }) {
   const [data, setData] = useState(null);
   const [index, setIndex] = useState(0);
   const [link, setLink] = useState(null);
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
   useEffect(() => {
-    var fetchStr =
-      "/api/routes/" + new Date().toJSON().substring(0, 10) + "/" + id;
-    console.log(fetchStr);
+    let dt = new Date();
+    dt = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000);
+    var fetchStr = "/api/routes/" + dt.toJSON().substring(0, 10) + "/" + id;
     fetch(fetchStr, {
       method: "GET",
     })
@@ -72,20 +79,6 @@ export function DriverRoute({ match }) {
     return (
       // <div className={classes.root}>
       <>
-        <Container m={2} maxWidth="md" style={{ width: "fit-content" }}>
-          <Pagination
-            m={2}
-            style={{ width: "fit-content", paddingTop: "8px" }}
-            // showFirstButton
-            // hidePrevButton
-            // hideNextButton
-            // showLastButton
-            page={index + 1}
-            onChange={handleChange}
-            // count={3}
-            count={data.deliveries.length}
-          />
-        </Container>
         <Container
           // minHeight="800px"
           maxWidth="sm"
@@ -136,6 +129,31 @@ export function DriverRoute({ match }) {
           {/* <ButtonGroup aria-label="outlined primary button group"> */}
           {/* </Box> */}
         </Container>
+        {/* <Container m={2} maxWidth="md" style={{ width: "fit-content" }}> */}
+        <div className="footer">
+          <Container m={2} maxWidth="md" style={{ width: "fit-content" }}>
+            <Pagination
+              m={2}
+              style={{
+                marginTop: "60px",
+                bottom: 0,
+                width: "fit-content",
+                paddingTop: "8px",
+              }}
+              variant="outlined"
+              shape="rounded"
+              // showFirstButton
+              // hidePrevButton
+              // hideNextButton
+              // showLastButton
+              page={index + 1}
+              onChange={handleChange}
+              // count={3}
+              count={data.deliveries.length}
+            />
+          </Container>
+        </div>
+        {/* </Container> */}
       </>
       // {/* </ButtonGroup> */}
       // {/* </div> */}

@@ -144,6 +144,57 @@ app.post("/api/drivers/add", async (req, res) => {
   }
 });
 
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  console.log(arr);
+}
+
+app.get("/api/ramadhan/:uid", async (req, res) => {
+  console.log("hello");
+  try {
+    let today = new Date();
+    const user = await db
+      .collection("events")
+      .doc("ramadhan")
+      .collection("ramadhanEvents")
+      .doc("2021-04-15")
+      .get()
+      .then((doc) => {
+        let ind = doc.data().drivers.indexOf(req.params.uid);
+        if (ind > -1 && ind < doc.data().numDrivers) {
+          res.status(200).json({ date: "2021-04-15" });
+        } else {
+          res.status(200).json({ date: "empty" });
+        }
+      });
+  } catch (error) {
+    res.status(500).json({ message: "Error! ", error });
+  }
+});
+
+app.get("/api/ramadhanShuffle", async (req, res) => {
+  console.log("hello");
+  try {
+    const user = await db
+      .collection("events")
+      .doc("ramadhan")
+      .collection("ramadhanEvents")
+      .doc("2021-04-15")
+      .get()
+      .then((doc) => {
+        let arr = doc.data().drivers;
+        shuffleArray(arr);
+        res.status(200).json(arr);
+        doc.ref.update({ drivers: arr });
+      });
+  } catch (error) {
+    res.status(500).json({ message: "Error! ", error });
+  }
+});
+
 app.put("/api/drivers/signup", async (req, res) => {
   try {
     const user = await db
@@ -178,7 +229,7 @@ app.put("/api/drivers/signup", async (req, res) => {
 
 db.collection("events").doc("2021-03-11").set({ index: 0 });
 
-db.collection("events").doc("2021-03-11").collection("routes").doc("3").set({
+db.collection("events").doc("2021-03-12").collection("routes").doc("3").set({
   index: 0,
   deliveries: deliveries,
 });

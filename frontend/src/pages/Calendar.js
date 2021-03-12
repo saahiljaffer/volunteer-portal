@@ -52,8 +52,15 @@ export function Calendar() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     })
-      .then(() => setOpen(true))
-      .catch(setError);
+      .then((response) => {
+        if (response.status >= 200 && response.status <= 299) {
+          setOpen(true);
+          setError(false);
+        } else {
+          setError(response.statusText);
+        }
+      })
+      .catch((error) => setError(error));
   };
 
   var beforeLim = new Date();
@@ -75,6 +82,16 @@ export function Calendar() {
 
   return (
     <div>
+      {open && (
+        <Alert onClose={handleClose} severity="success">
+          You have successfully signed up!
+        </Alert>
+      )}
+      {error && (
+        <Alert severity="error">
+          Your submission wasn't submitted successfully!
+        </Alert>
+      )}
       <DayPicker
         numberOfMonths={2}
         month={new Date(2021, 3)}
@@ -94,7 +111,7 @@ export function Calendar() {
       <Button onClick={submit}>Submit</Button>
       <Button onClick={deselectAll}>Deselect all</Button>
       <Box style={{ marginBottom: "50px" }}>
-        <Snackbar
+        {/* <Snackbar
           anchorOrigin={{
             vertical: "center",
             horizontal: "center",
@@ -102,11 +119,9 @@ export function Calendar() {
           open={open}
           autoHideDuration={6000}
           onClose={handleClose}
-        >
-          <Alert onClose={handleClose} severity="success">
-            You have successfully signed up!
-          </Alert>
-        </Snackbar>
+        > */}
+
+        {/* </Snackbar> */}
       </Box>
       {/* {submitted && (
         <Alert severity="success">This is a success message!</Alert>
