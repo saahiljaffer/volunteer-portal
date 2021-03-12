@@ -41,7 +41,9 @@ export function DriverRoute({ match }) {
   const [index, setIndex] = useState(0);
   const [link, setLink] = useState(null);
   useEffect(() => {
-    var fetchStr = "/api/routes/" + id;
+    var fetchStr =
+      "/api/routes/" + new Date().toJSON().substring(0, 10) + "/" + id;
+    console.log(fetchStr);
     fetch(fetchStr, {
       method: "GET",
     })
@@ -96,7 +98,17 @@ export function DriverRoute({ match }) {
           </p>
           <p>
             <b>Address: </b>
-            <Link href={link} key="signup">
+            <Link
+              href={
+                "https://www.google.com/maps/dir/?api=1&destination=" +
+                data.deliveries[index].number +
+                "+" +
+                data.deliveries[index].street +
+                "+" +
+                data.deliveries[index].postalCode
+              }
+              key="signup"
+            >
               {data.deliveries[index].number} {data.deliveries[index].street},{" "}
               {data.deliveries[index].city}, {data.deliveries[index].postalCode}
             </Link>
