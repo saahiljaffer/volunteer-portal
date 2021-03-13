@@ -134,8 +134,12 @@ export function DriverRoute({ match }) {
         <div className="footer">
           <Box m={1}>
             <Link to="/signup" key="signup" style={{ textDecoration: "none" }}>
-              <Button color="primary" variant="contained">
-                Create New Account
+              <Button
+                style={{ marginRight: "8px" }}
+                color="primary"
+                variant="contained"
+              >
+                Call Receipient
               </Button>
             </Link>
             <Link
@@ -144,7 +148,7 @@ export function DriverRoute({ match }) {
               style={{ textDecoration: "none" }}
             >
               <Button variant="contained" color="primary">
-                Forgot Password
+                Google Maps
               </Button>
             </Link>
           </Box>
