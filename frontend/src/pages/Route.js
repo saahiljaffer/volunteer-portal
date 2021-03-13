@@ -133,17 +133,28 @@ export function DriverRoute({ match }) {
 
         <div className="footer">
           <Box m={1}>
-            <Link to="/signup" key="signup" style={{ textDecoration: "none" }}>
+            <Link
+              href={"tel:" + data.deliveries[index].phone}
+              key="signup"
+              style={{ textDecoration: "none" }}
+            >
               <Button
                 style={{ marginRight: "8px" }}
                 color="primary"
                 variant="contained"
               >
-                Call Receipient
+                Call Recipient
               </Button>
             </Link>
             <Link
-              to="/forgotPassword"
+              href={
+                "https://www.google.com/maps/dir/?api=1&destination=" +
+                data.deliveries[index].number +
+                "+" +
+                data.deliveries[index].street +
+                "+" +
+                data.deliveries[index].postalCode
+              }
               key="forgotPassword"
               style={{ textDecoration: "none" }}
             >
