@@ -8,7 +8,7 @@ import {
   ButtonGroup,
   CircularProgress,
 } from "@material-ui/core";
-import { Pagination } from "@material-ui/lab";
+import { Pagination, PaginationItem } from "@material-ui/lab";
 import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -130,26 +130,33 @@ export function DriverRoute({ match }) {
           {/* </Box> */}
         </Container>
         {/* <Container m={2} maxWidth="md" style={{ width: "fit-content" }}> */}
+
         <div className="footer">
-          <Container m={2} maxWidth="md" style={{ width: "fit-content" }}>
+          <Box m={1}>
+            <Link to="/signup" key="signup" style={{ textDecoration: "none" }}>
+              <Button color="primary" variant="contained">
+                Create New Account
+              </Button>
+            </Link>
+            <Link
+              to="/forgotPassword"
+              key="forgotPassword"
+              style={{ textDecoration: "none" }}
+            >
+              <Button variant="contained" color="primary">
+                Forgot Password
+              </Button>
+            </Link>
+          </Box>
+
+          <Container style={{ width: "fit-content" }} maxWidth="md">
+            {/* <PaginationItem component="p" page={1}></PaginationItem> */}
             <Pagination
-              size="large"
-              m={2}
-              style={{
-                marginTop: "60px",
-                bottom: 0,
-                width: "fit-content",
-                paddingTop: "8px",
-              }}
+              // size="large"
               variant="outlined"
               shape="rounded"
-              // showFirstButton
-              // hidePrevButton
-              // hideNextButton
-              // showLastButton
               page={index + 1}
               onChange={handleChange}
-              // count={3}
               count={data.deliveries.length}
             />
           </Container>
