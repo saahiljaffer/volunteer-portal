@@ -55,9 +55,9 @@ module.exports = {
 };
 
 app.get("/api/routes/:date/:id", async (req, res) => {
-  db.collection("events")
-    .doc(req.params.date)
-    .collection("routes")
+  // .doc(req.params.date)
+  // .collection("routes")
+  db.collection("routes")
     .doc(req.params.id)
     .get()
     .then((doc) => {
@@ -191,9 +191,9 @@ app.put("/api/drivers/signup", async (req, res) => {
   }
 });
 
-db.collection("events").doc("2021-03-12").set({ index: 0 });
+// db.collection("events").doc("2021-03-12").set({ index: 0 });
 
-db.collection("events").doc("2021-03-12").collection("routes").doc("3").set({
+db.collection("routes").doc("3").set({
   index: 0,
   deliveries: deliveries,
 });
@@ -205,9 +205,9 @@ app.post("/api/routes/add", async (req, res) => {
       .doc(req.body.date)
       .set({ index: 0 });
 
+    // .doc(req.params.date)
+    // .collection("routes")
     const route = await db
-      .collection("events")
-      .doc(req.body.date)
       .collection("routes")
       .doc(req.body.id)
       .set({

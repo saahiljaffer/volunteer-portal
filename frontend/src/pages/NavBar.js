@@ -44,7 +44,7 @@ function NavBar({ products }) {
   }, []);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ alignItems: "center" }}>
       <Toolbar>
         <List
           className={classes.navDisplayFlex}
@@ -74,11 +74,11 @@ function NavBar({ products }) {
           )}
           {!isSignedIn && (
             <>
-              <Link to="/login" key="login" className={classes.linkText}>
+              {/* <Link to="/login" key="login" className={classes.linkText}>
                 <ListItem button>
                   <ListItemText primary="Login" />
                 </ListItem>
-              </Link>
+          </Link> */}
               <Link to="/routes" key="routes" className={classes.linkText}>
                 <ListItem button>
                   <ListItemText primary="Routes" />
