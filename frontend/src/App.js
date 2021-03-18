@@ -29,7 +29,7 @@ function App({ history }) {
         <Switch>
           <ProtectedRoute
             path="/"
-            redirectTo="/login"
+            redirectTo="/routes"
             component={() => <Events />}
             exact
           />
