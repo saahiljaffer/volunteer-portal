@@ -86,7 +86,10 @@ export function DriverRoute({ match }) {
             <p>
               Salaam Alaykum and thank you for volunteering! Before you begin
               your route, please add this site to your home screen to make it
-              easier to switching between this and Google Maps
+              easier to switching between this and Google Maps. For apartment
+              deliveries, please call the recipient to collect their niyaz. For
+              houses, you may leave the niyaz outside the door and ring the
+              doorbell.
             </p>
             <Box m={1}>
               <Button
@@ -102,7 +105,8 @@ export function DriverRoute({ match }) {
             <Box m={1}>
               <Button
                 onClick={() => {
-                  console.log(complete);
+                  setIndex(data.deliveries.length + 1);
+                  console.log("complete");
                 }}
                 variant="contained"
                 color="primary"
@@ -112,6 +116,30 @@ export function DriverRoute({ match }) {
             </Box>
           </Container>
         </>
+      );
+    } else if (index > data.deliveries.length) {
+      return (
+        <Container>
+          <h1>Thank you!</h1>
+          <h1>Route #{id} Completed</h1>
+
+          <p>
+            Thank you for volunteering! If you would like to create custom
+            routes for your own deliveries, please don't hesitate to contact us
+            at <Link href="mailto:niyaz@jaffari.org">niyaz@jaffari.org</Link>
+          </p>
+          <Box m={1}>
+            <Button
+              onClick={() => {
+                setIndex(1);
+              }}
+              variant="contained"
+              color="primary"
+            >
+              Return to Route
+            </Button>
+          </Box>
+        </Container>
       );
     } else {
       return (
@@ -175,7 +203,7 @@ export function DriverRoute({ match }) {
               <Box m={1}>
                 <Button
                   onClick={() => {
-                    console.log("complete");
+                    setIndex(data.deliveries.length + 1);
                   }}
                   variant="contained"
                   color="primary"
