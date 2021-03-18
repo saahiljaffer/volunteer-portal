@@ -8,7 +8,7 @@ import {
   ButtonGroup,
   CircularProgress,
 } from "@material-ui/core";
-import { Pagination } from "@material-ui/lab";
+import { Pagination, PaginationItem } from "@material-ui/lab";
 import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,10 +40,17 @@ export function DriverRoute({ match }) {
   const [data, setData] = useState(null);
   const [index, setIndex] = useState(0);
   const [link, setLink] = useState(null);
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
   useEffect(() => {
-    var fetchStr =
-      "/api/routes/" + new Date().toJSON().substring(0, 10) + "/" + id;
-    console.log(fetchStr);
+    let dt = new Date();
+    dt = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000);
+    var fetchStr = "/api/routes/" + dt.toJSON().substring(0, 10) + "/" + id;
     fetch(fetchStr, {
       method: "GET",
     })
@@ -72,20 +79,6 @@ export function DriverRoute({ match }) {
     return (
       // <div className={classes.root}>
       <>
-        <Container m={2} maxWidth="md" style={{ width: "fit-content" }}>
-          <Pagination
-            m={2}
-            style={{ width: "fit-content", paddingTop: "8px" }}
-            // showFirstButton
-            // hidePrevButton
-            // hideNextButton
-            // showLastButton
-            page={index + 1}
-            onChange={handleChange}
-            // count={3}
-            count={data.deliveries.length}
-          />
-        </Container>
         <Container
           // minHeight="800px"
           maxWidth="sm"
@@ -136,6 +129,54 @@ export function DriverRoute({ match }) {
           {/* <ButtonGroup aria-label="outlined primary button group"> */}
           {/* </Box> */}
         </Container>
+        {/* <Container m={2} maxWidth="md" style={{ width: "fit-content" }}> */}
+
+        <div className="footer">
+          <Box m={1}>
+            <Link
+              href={"tel:" + data.deliveries[index].phone}
+              key="signup"
+              style={{ textDecoration: "none" }}
+            >
+              <Button
+                style={{ marginRight: "8px" }}
+                color="primary"
+                variant="contained"
+              >
+                Call Recipient
+              </Button>
+            </Link>
+            <Link
+              href={
+                "https://www.google.com/maps/dir/?api=1&destination=" +
+                data.deliveries[index].number +
+                "+" +
+                data.deliveries[index].street +
+                "+" +
+                data.deliveries[index].postalCode
+              }
+              key="forgotPassword"
+              style={{ textDecoration: "none" }}
+            >
+              <Button variant="contained" color="primary">
+                Google Maps
+              </Button>
+            </Link>
+          </Box>
+
+          <Container style={{ width: "fit-content" }} maxWidth="md">
+            {/* <PaginationItem component="p" page={1}></PaginationItem> */}
+            <Pagination
+              // size="large"
+              variant="outlined"
+              shape="rounded"
+              page={index + 1}
+              onChange={handleChange}
+              count={data.deliveries.length}
+            />
+          </Container>
+        </div>
+        {/* </Container> */}
       </>
       // {/* </ButtonGroup> */}
       // {/* </div> */}
