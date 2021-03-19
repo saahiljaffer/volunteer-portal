@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import firebase from "firebase";
 import { useForm } from "react-hook-form";
 import { Redirect, Link } from "react-router-dom";
-
+import MuiAlert from "@material-ui/lab/Alert";
 import {
   Container,
   Box,
@@ -21,9 +21,10 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   textField: {
-    margin: theme.spacing(1),
+    marginRight: theme.spacing(0),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
-
   checkbox: {
     margin: theme.spacing(1),
     textAlign: "left",
@@ -34,10 +35,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export function SignUp() {
   const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
   const { register, handleSubmit, watch } = useForm();
   const classes = useStyles();
+  const [error, setError] = useState(null);
 
   const onSubmit = async (event) => {
     firebase
@@ -45,17 +51,7 @@ export function SignUp() {
       .createUserWithEmailAndPassword(watch("email"), watch("password"))
       .then((user) => {
         // Signed in
-
-        setIsSignedIn(!!user);
         var user = user.user;
-        user
-          .sendEmailVerification()
-          .then(function () {
-            // Email sent.
-          })
-          .catch(function (error) {
-            // An error happened.
-          });
         const body = {
           uid: user.uid,
           fname: watch("fname"),
@@ -70,9 +66,27 @@ export function SignUp() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
-        });
+        })
+          .then((response) => {
+            if (response.status >= 200 && response.status <= 299) {
+              setError(false);
+              user
+                .sendEmailVerification()
+                .then(function () {
+                  // Email sent.
+                })
+                .catch(function (error) {
+                  // An error happened.
+                });
+              setIsSignedIn(!!user);
+            } else {
+              setError(response.statusText);
+            }
+          })
+          .catch((error) => setError(error));
       })
       .catch((error) => {
+        setError(error.message);
         var errorCode = error.code;
         var errorMessage = error.message;
       });
@@ -83,7 +97,13 @@ export function SignUp() {
       <div className={classes.root}>
         <Container maxWidth="sm">
           <h1>Sign Up</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          {error && (
+            <Alert className={classes.textField} severity="error">
+              Your submission wasn't submitted successfully! &nbsp;
+              {error}
+            </Alert>
+          )}
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
             {/* </Box> */}
             <TextField
               inputRef={register({ required: "first name required" })}
@@ -120,7 +140,7 @@ export function SignUp() {
               name="password"
               label="Password"
               type="password"
-              autoComplete="current-password"
+              autoComplete="new-password"
               variant="outlined"
               className={classes.textField}
               fullWidth

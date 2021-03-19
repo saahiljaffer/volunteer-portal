@@ -102,7 +102,7 @@ app.post("/api/drivers/add", async (req, res) => {
         console.error("Error adding document: ", error);
       });
 
-    res.status(200).json(user);
+    res.status(500).json(user);
   } catch (error) {
     res.status(500).json({ message: "Error! ", error });
   }
@@ -161,6 +161,7 @@ app.get("/api/ramadhanShuffle", async (req, res) => {
 
 app.put("/api/drivers/signup", async (req, res) => {
   try {
+    console.log(req.body);
     const user = await db
       .collection("events")
       .doc("ramadhan")
