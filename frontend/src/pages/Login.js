@@ -54,8 +54,6 @@ export function Login() {
                 inputRef={register({ required: true })}
                 name="email"
                 label="Email Address"
-                // className={classes.textField}
-                // margin="normal"
                 variant="outlined"
                 fullWidth
               />
@@ -69,8 +67,6 @@ export function Login() {
                 label="Password"
                 type="password"
                 autoComplete="current-password"
-                // className={classes.textField}
-                // margin="normal"
                 variant="outlined"
                 fullWidth
               />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
-
+import HomeIcon from "@material-ui/icons/Home";
 import {
   AppBar,
   Toolbar,
@@ -79,10 +79,12 @@ function NavBar({ products }) {
                   <ListItemText primary="Login" />
                 </ListItem>
           </Link> */}
+
               <Link to="/routes" key="routes" className={classes.linkText}>
-                <ListItem button>
+                <HomeIcon />
+                {/* <ListItem button>
                   <ListItemText primary="Routes" />
-                </ListItem>
+                </ListItem> */}
               </Link>
             </>
           )}
