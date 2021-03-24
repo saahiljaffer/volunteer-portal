@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import HomeIcon from "@material-ui/icons/Home";
-
 import {
   AppBar,
   Toolbar,

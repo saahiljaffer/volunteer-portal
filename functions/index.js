@@ -3,7 +3,10 @@ const cors = require("cors");
 const express = require("express");
 const admin = require("firebase-admin");
 require("dotenv").config();
+const bodyParser = require("body-parser");
+
 const app = express();
+app.use(bodyParser.json());
 // const firebase = require("firebase");
 // require("firebase-admin/firestore");
 
@@ -53,6 +56,44 @@ var db = admin.firestore();
 module.exports = {
   api,
 };
+
+app.post("/api/routes/done/:date/:id", async (req, res) => {
+  // .doc(req.params.date)
+  // .collection("routes")
+  console.log(req.body.name);
+  const result = await db
+    .collection("routes")
+    .doc(req.params.id)
+    .update({
+      done: admin.firestore.FieldValue.arrayUnion(req.body.name),
+    })
+    .then((doc) => {
+      res.status(200);
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+      res.status(500).json({ message: "Error!" });
+    });
+});
+
+app.put("/api/routes/:date/:id", async (req, res) => {
+  // .doc(req.params.date)
+  // .collection("routes")
+  console.log(req.body.name);
+  const result = await db
+    .collection("routes")
+    .doc(req.params.id)
+    .update({
+      drivers: admin.firestore.FieldValue.arrayUnion(req.body.name),
+    })
+    .then((doc) => {
+      res.status(200);
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+      res.status(500).json({ message: "Error!" });
+    });
+});
 
 app.get("/api/routes/:date/:id", async (req, res) => {
   // .doc(req.params.date)
@@ -194,10 +235,10 @@ app.put("/api/drivers/signup", async (req, res) => {
 
 // db.collection("events").doc("2021-03-12").set({ index: 0 });
 
-db.collection("routes").doc("3").set({
-  index: 0,
-  deliveries: deliveries,
-});
+// db.collection("routes").doc("3").set({
+//   index: 0,
+//   deliveries: deliveries,
+// });
 
 app.post("/api/routes/add", async (req, res) => {
   try {

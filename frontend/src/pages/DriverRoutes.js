@@ -1,31 +1,19 @@
 import React, { useState } from "react";
-import {
-  FormControl,
-  Box,
-  TextField,
-  Button,
-  Link,
-  Container,
-} from "@material-ui/core";
+import { Box, TextField, Button, Link, Container } from "@material-ui/core";
 
 export function DriverRoutes() {
   const [route, setRoute] = useState("");
-
-  const handleChange = (event, value) => {
-    setRoute(event.target.value);
-  };
 
   return (
     <Container maxWidth="sm">
       <Box m={1}>
         <TextField
-          // inputRef={register}
           name="number"
           label="Route Number"
-          // className={classes.textField}
-          // margin="normal"
           value={route}
-          onChange={handleChange}
+          onChange={(event, value) => {
+            setRoute(event.target.value);
+          }}
           variant="outlined"
           fullWidth
         />
@@ -36,7 +24,7 @@ export function DriverRoutes() {
           key="signup"
           style={{ textDecoration: "none" }}
         >
-          <Button variant="contained" fullWidth>
+          <Button variant="contained" color="primary" fullWidth>
             Go
           </Button>
         </Link>

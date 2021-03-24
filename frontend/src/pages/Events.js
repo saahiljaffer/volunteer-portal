@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -10,8 +10,7 @@ import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
-import { Calendar } from "./Calendar";
-
+import { Calendar } from "../Components/Calendar";
 import {
   Grid,
   FormControl,
@@ -42,11 +41,8 @@ function DriverSignup() {
     console.log(result);
   };
 
-  const [data, setData] = useState(null);
-
   useEffect(() => {
     fetch(`/api/users`).then((response) => response.json());
-    // .then(setData);
   }, []);
 
   const { register, handleSubmit, watch, errors } = useForm();
@@ -59,7 +55,6 @@ function DriverSignup() {
             inputRef={register}
             name="number"
             label="Pickup Time"
-            // className={classes.textField}
             margin="normal"
             variant="outlined"
             fullWidth
@@ -130,7 +125,6 @@ const useStyles = makeStyles((theme) => ({
 function RecipeReviewCard({ content, title, subheader }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(true);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -162,12 +156,7 @@ function RecipeReviewCard({ content, title, subheader }) {
 
 export function Events() {
   return (
-    <Grid
-      maxwidth="md"
-      justifycontent="centre"
-      // alignItems="center"
-      // alignContent="center"
-    >
+    <Grid maxwidth="md" justifycontent="centre">
       <Box
         m={2}
         style={{
