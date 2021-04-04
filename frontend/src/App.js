@@ -2,10 +2,7 @@ import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Profile } from "./pages/Profile";
-import { DriverRoute } from "./pages/Route";
-import { DriverRoutes } from "./pages/DriverRoutes";
 import { ForgotPassword } from "./pages/ForgotPassword";
-
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
 import { Events } from "./pages/Events";
@@ -22,6 +19,7 @@ function ProtectedRoute({ redirectTo, path, component }) {
 }
 
 function App({ history }) {
+  // React routing
   return (
     <Router>
       <div className="App">
@@ -41,10 +39,6 @@ function App({ history }) {
           <Route path="/signup" component={() => <SignUp />} />
           <Route path="/login" component={() => <Login />} />
           <Route exact path="/forgotPassword" component={ForgotPassword} />
-          <Route exact path="/routes" component={DriverRoutes} />
-          <Route path="/routes/:id" component={DriverRoute} />
-
-          {/* <Route component={NotFoundPage} /> */}
         </Switch>
       </div>
     </Router>

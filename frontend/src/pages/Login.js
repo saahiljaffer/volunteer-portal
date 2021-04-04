@@ -5,13 +5,7 @@ import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-import {
-  Container,
-  Box,
-  FormControl,
-  TextField,
-  Button,
-} from "@material-ui/core";
+import { Container, Box, TextField, Button } from "@material-ui/core";
 
 // Configure Firebase.
 const config = {
@@ -26,10 +20,12 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 
+// Returns a login page that allows users to login
 export function Login() {
   const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
   const { register, handleSubmit, watch, errors } = useForm();
 
+  // log the user in using firebase
   const onSubmit = (event) => {
     firebase
       .auth()
@@ -43,6 +39,7 @@ export function Login() {
       });
   };
 
+  // only show the login page if theyre not authenticated
   if (!isSignedIn) {
     return (
       <div>
@@ -82,6 +79,7 @@ export function Login() {
               </Button>
             </Box>
 
+            {/* buttons for forgot password and new signups */}
             <Box m={1}>
               <Link
                 to="/signup"
@@ -109,6 +107,7 @@ export function Login() {
       </div>
     );
   }
+  // otherwise redirect them to the homepage
   return <Redirect to="/"></Redirect>;
 }
 

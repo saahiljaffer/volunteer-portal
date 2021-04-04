@@ -1,9 +1,7 @@
-// Import FirebaseAuth and firebase.
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import firebase from "firebase";
 import { useForm } from "react-hook-form";
 import { Redirect, Link } from "react-router-dom";
-import MuiAlert from "@material-ui/lab/Alert";
 import {
   Container,
   Box,
@@ -14,7 +12,9 @@ import {
   Checkbox,
   makeStyles,
 } from "@material-ui/core";
+import Alert from "../Components/Alert";
 
+// Styling
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -35,16 +35,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
+// Returns a signup page that allows users to create an account
 export function SignUp() {
   const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
   const { register, handleSubmit, watch } = useForm();
   const classes = useStyles();
   const [error, setError] = useState(null);
 
+  // API call to create the account
   const onSubmit = async (event) => {
     firebase
       .auth()
@@ -92,11 +90,13 @@ export function SignUp() {
       });
   };
 
+  // only show the signup form if they aren't signed in
   if (!isSignedIn) {
     return (
       <div className={classes.root}>
         <Container maxWidth="sm">
           <h1>Sign Up</h1>
+          {/* show an error when they don't sign ub succesfully */}
           {error && (
             <Alert className={classes.textField} severity="error">
               Your submission wasn't submitted successfully! &nbsp;
@@ -230,11 +230,10 @@ export function SignUp() {
               </Button>
             </Link>
           </Box>
-          {/* </FormControl> */}
         </Container>
-        {/* </div> */}
       </div>
     );
   }
+  // redirect them to the app if they're logged in
   return <Redirect to="/"></Redirect>;
 }
