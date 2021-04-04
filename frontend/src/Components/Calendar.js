@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import DayPicker, { DateUtils } from "react-day-picker";
+import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import { Button, Snackbar, Box } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
+import { Button, Box } from "@material-ui/core";
+import Alert from "./Alert";
 import firebase from "firebase";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 export function Calendar() {
   const [selectedDays, selectDays] = useState([]);
 
+  // function that selects/deselects a day when clicked on the calendar
   const handleDayClick = (day, { selected, disabled }) => {
     if (disabled) {
       return;
@@ -25,6 +22,7 @@ export function Calendar() {
     }
   };
 
+  // function that selects all the days in the calendar
   const selectAll = () => {
     var start = new Date(2021, 3, 15, 12);
     var end = new Date(2021, 4, 15, 12);
@@ -35,13 +33,15 @@ export function Calendar() {
     selectDays(daysOfYear);
   };
 
+  // function to clear the selectedDays array
   const deselectAll = () => {
     selectDays([]);
   };
 
-  const [submitted, setSubmitted] = useState(false);
+  // store any submission errors
   const [error, setError] = useState(null);
 
+  // API call to transmit registration
   const submit = () => {
     const body = {
       ramadhan: selectedDays,
@@ -63,6 +63,7 @@ export function Calendar() {
       .catch((error) => setError(error));
   };
 
+  // disable selection before 2 days from now and for dates before Ramadhan
   var beforeLim = new Date();
   beforeLim.setDate(beforeLim.getDate() + 2);
 
@@ -70,28 +71,31 @@ export function Calendar() {
     beforeLim = new Date(2021, 3, 15);
   }
 
+  // open/close the alert based on user preference and data
   const [open, setOpen] = React.useState(false);
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
+  // returns the calendar
   return (
     <div>
+      {/* succesful alert */}
       {open && (
         <Alert onClose={handleClose} severity="success">
           You have successfully signed up!
         </Alert>
       )}
+      {/* unsuccesful alert */}
       {error && (
         <Alert severity="error">
           Your submission wasn't submitted successfully!
         </Alert>
       )}
+      {/* calendar */}
       <DayPicker
         numberOfMonths={2}
         month={new Date(2021, 3)}
@@ -107,25 +111,11 @@ export function Calendar() {
         onDayClick={handleDayClick}
       />
       <br />
+      {/* buttons to select all, submit, and deselect all */}
       <Button onClick={selectAll}>Select all</Button>
       <Button onClick={submit}>Submit</Button>
       <Button onClick={deselectAll}>Deselect all</Button>
-      <Box style={{ marginBottom: "50px" }}>
-        {/* <Snackbar
-          anchorOrigin={{
-            vertical: "center",
-            horizontal: "center",
-          }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={handleClose}
-        > */}
-
-        {/* </Snackbar> */}
-      </Box>
-      {/* {submitted && (
-        <Alert severity="success">This is a success message!</Alert>
-      )} */}
+      <Box style={{ marginBottom: "50px" }}></Box>
     </div>
   );
 }

@@ -1,19 +1,9 @@
 import React, { useState } from "react";
-import {
-  FormControl,
-  Box,
-  TextField,
-  Button,
-  Link,
-  Container,
-} from "@material-ui/core";
+import { Box, TextField, Button, Link, Container } from "@material-ui/core";
 import firebase from "firebase";
-import MuiAlert from "@material-ui/lab/Alert";
+import Alert from "../Components/Alert";
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
+// Returns a forgot password page to allow users to reset their password
 export function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
@@ -35,6 +25,7 @@ export function ForgotPassword() {
       });
   };
 
+  // Return an alert if their password has been reset
   if (open) {
     return (
       <Container maxWidth="sm">
@@ -52,6 +43,7 @@ export function ForgotPassword() {
         </Box>
       </Container>
     );
+    // Otherwise return an alert that their password wasn't reset succesfully
   } else {
     return (
       <Container maxWidth="sm">
@@ -63,13 +55,11 @@ export function ForgotPassword() {
             </Alert>
           </Box>
         )}
+        {/* Email field to reset their password */}
         <Box m={1}>
           <TextField
-            // inputRef={register}
             name="email"
             label="Email Address"
-            // className={classes.textField}
-            // margin="normal"
             value={email}
             onChange={handleChange}
             variant="outlined"

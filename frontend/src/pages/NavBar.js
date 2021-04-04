@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
-import HomeIcon from "@material-ui/icons/Home";
 import {
   AppBar,
   Toolbar,
@@ -11,6 +10,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 
+// Styling
 const useStyles = makeStyles((theme) => ({
   navDisplayFlex: {
     display: `flex`,
@@ -23,13 +23,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Array of navigation links
 const navLinks = [
   { title: `Home`, path: `/` },
   { title: "Routes", path: "/routes" },
   { title: `Profile`, path: `/profile` },
 ];
 
-function NavBar({ products }) {
+// Returns a navigation bar
+function NavBar() {
   const classes = useStyles();
   const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
 
@@ -51,6 +53,7 @@ function NavBar({ products }) {
           component="nav"
           aria-labelledby="main navigation"
         >
+          {/* show them all the pages if theyre signed in */}
           {isSignedIn && (
             <>
               {navLinks.map(({ title, path }) => (
@@ -72,21 +75,13 @@ function NavBar({ products }) {
               </Link>
             </>
           )}
+          {/* otherwise only link them to the sign in page */}
           {!isSignedIn && (
-            <>
-              {/* <Link to="/login" key="login" className={classes.linkText}>
-                <ListItem button>
-                  <ListItemText primary="Login" />
-                </ListItem>
-          </Link> */}
-
-              <Link to="/routes" key="routes" className={classes.linkText}>
-                <HomeIcon />
-                {/* <ListItem button>
-                  <ListItemText primary="Routes" />
-                </ListItem> */}
-              </Link>
-            </>
+            <Link to="/login" key="login" className={classes.linkText}>
+              <ListItem button>
+                <ListItemText primary="Login" />
+              </ListItem>
+            </Link>
           )}
         </List>
       </Toolbar>

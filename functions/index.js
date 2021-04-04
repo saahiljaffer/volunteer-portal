@@ -1,45 +1,15 @@
 const functions = require("firebase-functions");
-const cors = require("cors");
 const express = require("express");
 const admin = require("firebase-admin");
 require("dotenv").config();
-const bodyParser = require("body-parser");
-
 const app = express();
-app.use(bodyParser.json());
-// const firebase = require("firebase");
-// require("firebase-admin/firestore");
-
-// const firestore = require("firebase-firestore");
-app.use(cors({ origin: true }));
-
 const runtimeOpts = {
   timeoutSeconds: 300,
   memory: "1GB",
 };
-
 const api = functions.runWith(runtimeOpts).https.onRequest(app);
 
-var deliveries = [];
-for (let i = 0; i < 15; i++) {
-  if (i % 2) {
-    apartment = i;
-  } else {
-    apartment = null;
-  }
-  deliveries.push({
-    city: "Richmond Hill",
-    id: i,
-    number: "9205",
-    phone: "647-761-8415",
-    portions: "3",
-    postalCode: "L4C 0V9",
-    street: "Bathurst Street",
-    apt: apartment,
-    notes: "ty",
-  });
-}
-
+// firebase config
 const config = {
   apiKey: "AIzaSyA_g3NGl1fswGiAn028Rq8VfRlqLZHA_1c",
   authDomain: "isijniyaz.firebaseapp.com",
@@ -57,59 +27,7 @@ module.exports = {
   api,
 };
 
-app.post("/api/routes/done/:date/:id", async (req, res) => {
-  // .doc(req.params.date)
-  // .collection("routes")
-  console.log(req.body.name);
-  const result = await db
-    .collection("routes")
-    .doc(req.params.id)
-    .update({
-      done: admin.firestore.FieldValue.arrayUnion(req.body.name),
-    })
-    .then((doc) => {
-      res.status(200);
-    })
-    .catch((error) => {
-      console.log("Error getting document:", error);
-      res.status(500).json({ message: "Error!" });
-    });
-});
-
-app.put("/api/routes/:date/:id", async (req, res) => {
-  // .doc(req.params.date)
-  // .collection("routes")
-  console.log(req.body.name);
-  const result = await db
-    .collection("routes")
-    .doc(req.params.id)
-    .update({
-      drivers: admin.firestore.FieldValue.arrayUnion(req.body.name),
-    })
-    .then((doc) => {
-      res.status(200);
-    })
-    .catch((error) => {
-      console.log("Error getting document:", error);
-      res.status(500).json({ message: "Error!" });
-    });
-});
-
-app.get("/api/routes/:date/:id", async (req, res) => {
-  // .doc(req.params.date)
-  // .collection("routes")
-  db.collection("routes")
-    .doc(req.params.id)
-    .get()
-    .then((doc) => {
-      res.status(200).send(doc.data());
-    })
-    .catch((error) => {
-      console.log("Error getting document:", error);
-      res.status(500).json({ message: "Error!" });
-    });
-});
-
+//  function to retrieve a user's data
 app.get("/api/drivers/:uid", async (req, res) => {
   db.collection("drivers")
     .doc(req.params.uid)
@@ -123,6 +41,7 @@ app.get("/api/drivers/:uid", async (req, res) => {
     });
 });
 
+// function to create a new user
 app.post("/api/drivers/add", async (req, res) => {
   try {
     const user = await db
@@ -149,6 +68,7 @@ app.post("/api/drivers/add", async (req, res) => {
   }
 });
 
+//  function to shuffle an array
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -157,6 +77,7 @@ function shuffleArray(arr) {
   console.log(arr);
 }
 
+// returns the ramadhan signup data for ramadhan for a user
 app.get("/api/ramadhan/:uid", async (req, res) => {
   console.log("hello");
   try {
@@ -180,6 +101,7 @@ app.get("/api/ramadhan/:uid", async (req, res) => {
   }
 });
 
+// shuffle the array of drivers randomly
 app.get("/api/ramadhanShuffle", async (req, res) => {
   console.log("hello");
   try {
@@ -200,9 +122,11 @@ app.get("/api/ramadhanShuffle", async (req, res) => {
   }
 });
 
+// Put request that allows drivers to modify their ramadhan signup
 app.put("/api/drivers/signup", async (req, res) => {
   try {
     console.log(req.body);
+    // clear the existing array
     const user = await db
       .collection("events")
       .doc("ramadhan")
@@ -217,6 +141,7 @@ app.put("/api/drivers/signup", async (req, res) => {
         });
       });
 
+    // update the array with any new values
     for (var i = 0; i < req.body.ramadhan.length; i++) {
       const user = await db
         .collection("events")
@@ -228,42 +153,6 @@ app.put("/api/drivers/signup", async (req, res) => {
         });
     }
     res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: "Error! ", error });
-  }
-});
-
-// db.collection("events").doc("2021-03-12").set({ index: 0 });
-
-// db.collection("routes").doc("3").set({
-//   index: 0,
-//   deliveries: deliveries,
-// });
-
-app.post("/api/routes/add", async (req, res) => {
-  try {
-    const event = await db
-      .collection("events")
-      .doc(req.body.date)
-      .set({ index: 0 });
-
-    // .doc(req.params.date)
-    // .collection("routes")
-    const route = await db
-      .collection("routes")
-      .doc(req.body.id)
-      .set({
-        index: 0,
-        deliveries: req.body.deliveries,
-      })
-      .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.log("Error adding document: ", error);
-      });
-
-    res.status(200).json(route);
   } catch (error) {
     res.status(500).json({ message: "Error! ", error });
   }

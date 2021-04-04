@@ -9,6 +9,7 @@ import {
   Container,
 } from "@material-ui/core";
 
+// styling
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -27,9 +28,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// returns a profile page that allows users to see and modify their profile information
 export function Profile() {
   const [data, setData] = useState(null);
 
+  // api call to retrieve user data
   useEffect(() => {
     if (firebase.auth().currentUser) {
       var fetchStr = "/api/drivers/" + firebase.auth().currentUser.uid;
@@ -41,6 +44,7 @@ export function Profile() {
     }
   }, []);
 
+  // api call to update user data
   const onSubmit = async (event) => {
     const result = await fetch(`/api/drivers/add/`, {
       method: "POST",
@@ -58,10 +62,11 @@ export function Profile() {
     console.log(result);
   };
 
+  // react-hook-form and styling
   const { register, handleSubmit, watch, errors } = useForm();
-
   const classes = useStyles();
 
+  // display the data once its loaded
   if (data) {
     return (
       <div className={classes.root}>
