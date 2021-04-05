@@ -10,6 +10,7 @@ import NavBar from "./pages/NavBar";
 import { Redirect } from "react-router-dom";
 import firebase from "firebase";
 
+// Returns a protected route that redirects if not logged in
 function ProtectedRoute({ redirectTo, path, component }) {
   if (!firebase.auth().currentUser) {
     return <Redirect to={redirectTo}></Redirect>;
